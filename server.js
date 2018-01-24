@@ -1,12 +1,18 @@
-
-//Servidor para la pantalla de chat
-
+//Módulos requeridos
 var sys = require("util"),  
     http = require("http"),  
     url = require("url"),  
     path = require("path"),  
     fs = require("fs"),
     io = require("socket.io");
+
+//GLOBALS (TODO: unificar en servidor y cliente)
+var portServidorChatNodeJs = '8889';
+var portServidorWebNodeJs = '8888';
+
+/**
+ * Servidor web para la pantalla de chat
+ */
 
 var mimeTypes = {
     'html': 'text/html', 
@@ -20,7 +26,6 @@ http.createServer(function(request, response) {
     var filename = path.join(process.cwd(), uri);  
     fs.exists(filename, function(exists) {  
         if(!exists) {  
-            //response.sendHeader(404, {"Content-Type": "text/plain"});
             response.writeHead(404, {"Content-Type": "text/html"});  
             response.write("404 Not Found\n");  
             response.end();  
@@ -38,29 +43,23 @@ http.createServer(function(request, response) {
             var extension = path.extname(filename).substr(1);
             var mimeType = mimeTypes[extension] || 'application/octet-stream';
             response.writeHead(200, {'Content-Type': mimeType});
-
               
-            response.write(file, "binary");  
-            //response.close();
+            response.write(file, "binary");
             response.end();  
         });  
     });  
-}).listen(8888);
+}).listen(portServidorWebNodeJs);
 
-//Deprecated
-//sys.puts("Server running at http://localhost:8888/");
-console.log("Server running at http://localhost:8888/");
+console.log("Server running at http://localhost:" + portServidorWebNodeJs + "/");
 
+/**
+ * Servidor para los envios de mensajes del chat
+ */
 
-//Servidor para los envios de mensajes del chat
-
-var io = require('socket.io').listen(8889);
+var io = require('socket.io').listen(portServidorChatNodeJs);
 
 io.sockets.on('connection', function (socket) {
-  //socket.emit('news', { hello: 'world' });
-  socket.on('nuevomsj', function (data) {
-    console.log(data);
-    //socket.emit('news', data);   //Con esto lo mando a uno solo pero quiero mandarselo a todos los clientes
-    io.sockets.emit('news', data);
-  });
+    socket.on('nuevomsj', function (data) {
+        io.sockets.emit('news', data);
+    });
 });        

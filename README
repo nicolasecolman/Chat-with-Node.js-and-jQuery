@@ -11,7 +11,7 @@ How to install:
       var ipServidorChatNodeJs = '192.168.1.4'; //Ip address for the created web server (localhost for local usage)
       var portServidorChatNodeJs = '8889'; //Port for the chat server (optional)
       var portServidorWebNodeJs = '8888';  //Port for the web server (optional)
-3. Then you must do the same in server.js (lines 44, 46 and 51).
+3. Then you must do the same in server.js (lines 10 and 11).
 4. Open a console and run the following command: 
 	$ node server.js
 5. Open a browser and type the location of your app (e.g. http://localhost:8888/index.html).

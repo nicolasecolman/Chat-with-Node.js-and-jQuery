@@ -1,15 +1,16 @@
-
+        
 #container, #login{
-  width: 300px;
+    width: 300px;
+    padding: 5px;
 }
 
 #mensajes{
-  background:black;
-  border-radius:5px; 
-  color:white;
-  height:300px;
-  margin-top:5px;
-  margin-bottom:5px;
-  overflow:scroll;  
-  padding-left:5px;
+    background: black;
+    border-radius: 5px; 
+    color: white;
+    height: 300px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    overflow: scroll;  
+    padding-left: 5px;
 }

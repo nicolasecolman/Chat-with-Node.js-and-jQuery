@@ -1,99 +1,106 @@
 <!DOCTYPE html>
 <html lang="es" >
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Chat</title>
-    
-    <!--
-    PROXIMAS CORRECCIONES:
-    - BUSCAR LA FORMA DE PASAR VARIABLE DESDE EL SERVIDOR PARA CONFIGURAR DIRECCION IP DEL SERVICIO DE CHAT (AHORA FUNCIONA DESDE LOCALHOST) 
-    -->
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Chat</title>    
+        <link rel="stylesheet" type="text/css" href="estilo.css">        
+        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/latest/jquery.mobile.min.css" />
+    </head>
+    <body>
+        <div id="login" >
+            <label>Ingresa tu nombre: </label>
+            <input type="text" id="nuevonombre" size="33" maxlength="33" >
+            <div>
+                <a data-role="button" onclick="inicializar()" >Aceptar</a>
+            </div>
+        </div>
 
-    <link rel="stylesheet" type="text/css" href="estilo.css">
+        <div id="container" style="display:none">
+            <form>
+                <div>
+                    <label>Tu nombre: </label>
+                    <input type="text" id="nombre" size="33" readonly >
+                </div>
+                <div id="mensajes" >Bienvenido...</div> 
+                <div>
+                    <input type="text" id="mimensaje" size="45" maxlength="45" placeholder="Ingresa un mensaje">
+                </div>
+                <div>
+                    <a data-role="button" onclick="emitir()" >Enviar</a>
+                </div>
+            </form>
+        </div>
+
+        <script src="http://code.jquery.com/jquery.min.js" ></script>    
+        <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js" ></script>        
+        <script >
+            //GLOBALS (TODO: unificar en servidor y cliente)
+            var ipServidorChatNodeJs = 'localhost'; 
+            var portServidorChatNodeJs = '8889';
+            var portServidorWebNodeJs = '8888';     
+            var socket;  
+
+            function inicializar(){
+                $("#nombre").val( $("#nuevonombre").val() );
+                $("#login").hide('1000');
+                $("#container").show('1000');
+                $("#mimensaje").focus();
+                
+                socket = io.connect('http://' + ipServidorChatNodeJs + ':' + portServidorChatNodeJs );
+                socket.on('news', function (data) {
+                    document.getElementById("mensajes").innerHTML = document.getElementById("mensajes").innerHTML + "<p>" + data + "</p>";
+                    $("#mensajes").animate({scrollTop: $("#mensajes")[0].scrollHeight});
+                });
+                
+                socket.emit('nuevomsj', "- " + $("#nombre").val() + " ha ingresado a la conversacion!"); 
+                
+                $("#mensajes").html("Bienvenido " + $("#nombre").val());
+            }
+                    
+            function emitir(){
+                try{ 
+                    if(!$("#nombre").val()) {
+                        alert("Ingrese un nombre.");
+                        return;
+                    }        
+                    if(!$("#mimensaje").val()) { 
+                        return; 
+                    }
+                    var mimensaje = "<em>" + $("#nombre").val() + " dice</em>: " + $("#mimensaje").val();
+                    $("#mimensaje").val("");
+                    socket.emit('nuevomsj', mimensaje); 
+                }catch(e){ 
+                    alert(e);
+                }
+            }
+            
+            $(document).on("ready", function(){      
+                $.mobile.changePage('#login', 'pop', false, true);
+
+                $("#mimensaje").on("keypress", function(e){
+                    if(e.keyCode == 13) {
+                        emitir();
+                    }
+                });
+                
+                $("#nuevonombre").focus();
+                
+                $("#nuevonombre").on("keypress", function(e){
+                    if(e.keyCode == 13 && $("#nuevonombre").val()) {
+                        inicializar();
+                    }
+                });
+
+            });
         
-    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/latest/jquery.mobile.min.css" />
-    <script src="http://code.jquery.com/jquery.min.js" type="text/javascript" ></script>    
-    <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js" type="text/javascript" ></script>
-    
-    
-    
-    <script type="text/javascript" >
-      //GLOBAL VARIABLES
-      var ipServidorChatNodeJs = 'localhost'; 
-      var portServidorChatNodeJs = '8889';
-      var portServidorWebNodeJs = '8888';     
-      var socket;
+        </script>
 
-
-      function inicializar(){
-        document.getElementById("nombre").value=$("#nuevonombre").val();
-        $("#login").hide('1000');
-        $("#container").show('1000');
-        $("#mimensaje").focus();
-        
-        socket = io.connect('http://' + ipServidorChatNodeJs + ':' + portServidorChatNodeJs );
-        socket.on('news', function (data) {
-          document.getElementById('mensajes').innerHTML = document.getElementById('mensajes').innerHTML + "<p>" + data + "</p>";
-          $("#mensajes").animate({scrollTop: $("#mensajes")[0].scrollHeight});
-        });
-        
-        socket.emit('nuevomsj', "- " + document.getElementById("nombre").value + " ha ingresado a la conversacion!"); 
-        document.getElementById('mensajes').innerHTML = "Bienvenido " + document.getElementById("nombre").value; 
-      }
-             
-      function emitir(){
-        try{ 
-          if(!$("#nombre").val()) {alert("Ingrese un nombre."); return }        
-          if(!$("#mimensaje").val()) { return }        
-          var mimensaje = "<em>" + $("#nombre").val() + " dice</em>: " + $("#mimensaje").val();
-          $("#mimensaje").val("");
-          socket.emit('nuevomsj', mimensaje); 
-        }catch(e){ alert(e) }
-      }
-      
-      $(document).on("ready",function(){      
-        $.mobile.changePage('#login','pop',false,true)
-
-        $("#mimensaje").on("keypress",function(e){
-          if(e.keyCode == 13){
-            emitir();
-          }
-        });
-        
-        $("#nuevonombre").focus();
-        
-        $("#nuevonombre").on("keypress",function(e){
-          if(e.keyCode == 13 && $("#nuevonombre").val()){
-            inicializar()            
-          }
-        });
-
-      });
-      
-    </script>
-  
-  </head>
-  <body>
-    <div id="login" >
-      Ingresa tu nombre: <input type="text" id="nuevonombre" size="33" maxlength="33" >
-      <div><a data-role="button" onclick="inicializar()" >Aceptar</a></div>
-    </div>
-  
-    <div id="container" style="display:none">
-      <form>
-        <div>Tu nombre: <input type="text" id="nombre" size="33" readonly ></div>
-        <div id="mensajes" >Bienvenido...</div> 
-        <div><input type="text" id="mimensaje" size="45" maxlength="45"></div>
-        <div><a data-role="button" onclick="emitir()" >Enviar</a></div>
-      </form>  
-  </body>
-
+        <script>
+            var myscript = document.createElement('script');
+            myscript.src = 'http://' + ipServidorChatNodeJs + ':' + portServidorWebNodeJs + '/node_modules/socket.io-client/dist/socket.io.js';
+            myscript.type = 'text/javascript';
+            document.getElementsByTagName('head')[0].appendChild(myscript);
+        </script>            
+    </body>
 </html>
-
-<script>
-  var myscript=document.createElement('script');
-  myscript.src='http://' + ipServidorChatNodeJs + ':' + portServidorWebNodeJs + '/node_modules/socket.io-client/dist/socket.io.js';
-  myscript.type='text/javascript';
-  document.getElementsByTagName('head')[0].appendChild(myscript);
-</script>
