@@ -1,4 +1,4 @@
-//Módulos requeridos
+//Required modules
 var sys = require("util"),  
     http = require("http"),  
     url = require("url"),  
@@ -6,10 +6,10 @@ var sys = require("util"),
     fs = require("fs"),
     io = require("socket.io");
 
-require("./config.js");
+require("./config.js"); 
 
 /**
- * Servidor web para la pantalla de chat
+ * Web server
  */
 
 var mimeTypes = {
@@ -51,7 +51,7 @@ http.createServer(function(request, response) {
 console.log("Server running at http://" + ipServidorChatNodeJs + ":" + portServidorWebNodeJs + "/");
 
 /**
- * Servidor para los envios de mensajes del chat
+ * Messages server
  */
 
 var io = require('socket.io').listen(portServidorChatNodeJs);

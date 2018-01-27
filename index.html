@@ -12,11 +12,11 @@
             <label>Ingresa tu nombre: </label>
             <input type="text" id="nuevonombre" size="33" maxlength="33" >
             <div>
-                <a data-role="button" onclick="inicializar()" >Aceptar</a>
+                <a data-role="button" id="login_button" >Aceptar</a>
             </div>
         </div>
 
-        <div id="container" style="display:none">
+        <div id="container" style="display:none" >
             <form>
                 <div>
                     <label>Tu nombre: </label>
@@ -27,7 +27,7 @@
                     <input type="text" id="mimensaje" size="45" maxlength="45" placeholder="Ingresa un mensaje">
                 </div>
                 <div>
-                    <a data-role="button" onclick="emitir()" >Enviar</a>
+                    <a data-role="button" id="chat_button" >Enviar</a>
                 </div>
             </form>
         </div>
@@ -35,63 +35,9 @@
         <script src="http://code.jquery.com/jquery.min.js" ></script>
         <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js" ></script>
         <script src="config.js"></script>
+        <script src="client.js"></script>
         <script>            
             
-            var socket;
-
-            function inicializar(){
-                $("#nombre").val( $("#nuevonombre").val() );
-                $("#login").hide(1000);
-                $("#container").show(1000);
-                $("#mimensaje").focus();
-                
-                socket = io.connect('http://' + ipServidorChatNodeJs + ':' + portServidorChatNodeJs );
-                socket.on('news', function (data) {
-                    document.getElementById("mensajes").innerHTML = document.getElementById("mensajes").innerHTML + "<p>" + data + "</p>";
-                    $("#mensajes").animate({scrollTop: $("#mensajes")[0].scrollHeight});
-                });
-                
-                socket.emit('nuevomsj', "- " + $("#nombre").val() + " ha ingresado a la conversación!"); 
-                
-                $("#mensajes").html("<p>Bienvenido " + $("#nombre").val() + "</p>");
-            }
-                    
-            function emitir(){
-                try{ 
-                    if(!$("#nombre").val()) {
-                        alert("Ingrese un nombre.");
-                        return;
-                    }        
-                    if(!$("#mimensaje").val()) { 
-                        return; 
-                    }
-                    var mimensaje = "<em>" + $("#nombre").val() + " dice</em>: " + $("#mimensaje").val();
-                    $("#mimensaje").val("");
-                    socket.emit('nuevomsj', mimensaje); 
-                }catch(e){ 
-                    alert(e);
-                }
-            }
-            
-            $(document).on("ready", function(){      
-                $.mobile.changePage('#login', 'pop', false, true);
-
-                $("#mimensaje").on("keypress", function(e){
-                    if(e.keyCode == 13) {
-                        emitir();
-                    }
-                });
-                
-                $("#nuevonombre").focus();
-                
-                $("#nuevonombre").on("keypress", function(e){
-                    if(e.keyCode == 13 && $("#nuevonombre").val()) {
-                        inicializar();
-                    }
-                });
-
-            });
-
             (
                 function(d){
                     var myscript = d.createElement('script');
@@ -100,6 +46,10 @@
                     d.getElementsByTagName('head')[0].appendChild(myscript);
                 }
             )(document);
+
+            $(document).ready(function(){
+                chat.init();
+            })
         
         </script>            
     </body>
