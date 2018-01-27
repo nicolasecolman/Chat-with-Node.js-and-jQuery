@@ -6,9 +6,7 @@ var sys = require("util"),
     fs = require("fs"),
     io = require("socket.io");
 
-//GLOBALS (TODO: unificar en servidor y cliente)
-var portServidorChatNodeJs = '8889';
-var portServidorWebNodeJs = '8888';
+require("./config.js");
 
 /**
  * Servidor web para la pantalla de chat
@@ -50,7 +48,7 @@ http.createServer(function(request, response) {
     });  
 }).listen(portServidorWebNodeJs);
 
-console.log("Server running at http://localhost:" + portServidorWebNodeJs + "/");
+console.log("Server running at http://" + ipServidorChatNodeJs + ":" + portServidorWebNodeJs + "/");
 
 /**
  * Servidor para los envios de mensajes del chat

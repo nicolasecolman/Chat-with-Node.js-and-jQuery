@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <title>Chat</title>    
-        <link rel="stylesheet" type="text/css" href="estilo.css">        
-        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/latest/jquery.mobile.min.css" />
+        <title>Chat</title>
+        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/latest/jquery.mobile.min.css">
+        <link rel="stylesheet" type="text/css" href="estilo.css">
     </head>
     <body>
-        <div id="login" >
+        <div id="login">
             <label>Ingresa tu nombre: </label>
             <input type="text" id="nuevonombre" size="33" maxlength="33" >
             <div>
@@ -32,19 +32,17 @@
             </form>
         </div>
 
-        <script src="http://code.jquery.com/jquery.min.js" ></script>    
-        <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js" ></script>        
-        <script >
-            //GLOBALS (TODO: unificar en servidor y cliente)
-            var ipServidorChatNodeJs = 'localhost'; 
-            var portServidorChatNodeJs = '8889';
-            var portServidorWebNodeJs = '8888';     
-            var socket;  
+        <script src="http://code.jquery.com/jquery.min.js" ></script>
+        <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js" ></script>
+        <script src="config.js"></script>
+        <script>            
+            
+            var socket;
 
             function inicializar(){
                 $("#nombre").val( $("#nuevonombre").val() );
-                $("#login").hide('1000');
-                $("#container").show('1000');
+                $("#login").hide(1000);
+                $("#container").show(1000);
                 $("#mimensaje").focus();
                 
                 socket = io.connect('http://' + ipServidorChatNodeJs + ':' + portServidorChatNodeJs );
@@ -53,9 +51,9 @@
                     $("#mensajes").animate({scrollTop: $("#mensajes")[0].scrollHeight});
                 });
                 
-                socket.emit('nuevomsj', "- " + $("#nombre").val() + " ha ingresado a la conversacion!"); 
+                socket.emit('nuevomsj', "- " + $("#nombre").val() + " ha ingresado a la conversación!"); 
                 
-                $("#mensajes").html("Bienvenido " + $("#nombre").val());
+                $("#mensajes").html("<p>Bienvenido " + $("#nombre").val() + "</p>");
             }
                     
             function emitir(){
@@ -93,14 +91,16 @@
                 });
 
             });
-        
-        </script>
 
-        <script>
-            var myscript = document.createElement('script');
-            myscript.src = 'http://' + ipServidorChatNodeJs + ':' + portServidorWebNodeJs + '/node_modules/socket.io-client/dist/socket.io.js';
-            myscript.type = 'text/javascript';
-            document.getElementsByTagName('head')[0].appendChild(myscript);
+            (
+                function(d){
+                    var myscript = d.createElement('script');
+                    myscript.src = 'http://' + ipServidorChatNodeJs + ':' + portServidorWebNodeJs + '/node_modules/socket.io-client/dist/socket.io.js';
+                    myscript.type = 'text/javascript';
+                    d.getElementsByTagName('head')[0].appendChild(myscript);
+                }
+            )(document);
+        
         </script>            
     </body>
 </html>

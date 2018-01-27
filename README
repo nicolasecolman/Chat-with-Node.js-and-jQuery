@@ -1,4 +1,5 @@
-Chat with Node.js and jQuery is a web application developed entirely with node.js that allow users to chat in a web interface. No need to apache or databases.
+Chat with Node.js and jQuery is a web application developed entirely with node.js that allow users to chat in a web interface. 
+No need to apache or databases.
 
 Requirements:
 - Nodejs
@@ -7,12 +8,11 @@ Requirements:
 
 How to install:
 1. Clone the repo in any location.
-2. Open index.html and edit the lines:
-      var ipServidorChatNodeJs = '192.168.1.4'; //Ip address for the created web server (localhost for local usage)
-      var portServidorChatNodeJs = '8889'; //Port for the chat server (optional)
-      var portServidorWebNodeJs = '8888';  //Port for the web server (optional)
-3. Then you must do the same in server.js (lines 10 and 11).
-4. Open a console and run the following command: 
+2. Open config.js and edit the lines with the desired values:
+      ipServidorChatNodeJs = '192.168.1.4'; //Ip address for the created web server (localhost for local usage)
+      portServidorChatNodeJs = '8889'; //Port for the chat server (optional)
+      portServidorWebNodeJs = '8888';  //Port for the web server (optional)
+3. Open a console and run the following command: 
 	$ node server.js
-5. Open a browser and type the location of your app (e.g. http://localhost:8888/index.html).
-6. Enjoy!
+4. Open a browser and type the location of your app (e.g. http://localhost:8888/index.html).
+5. Enjoy!
