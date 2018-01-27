@@ -1,22 +1,20 @@
 //Required modules
-var sys = require("util"),  
+var config  = require("./config.js")
     http = require("http"),  
-    url = require("url"),  
+    url  = require("url"),  
     path = require("path"),  
-    fs = require("fs"),
-    io = require("socket.io");
-
-require("./config.js"); 
+    fs   = require("fs"),
+    io   = require("socket.io");
 
 /**
  * Web server
  */
 
 var mimeTypes = {
-    'html': 'text/html', 
-    'png': 'image/png',
-    'js': 'text/javascript', 
-    'css': 'text/css'
+    "html": "text/html", 
+    "png" : "image/png",
+    "js"  : "text/javascript",
+    "css" : "text/css"
 };
         
 http.createServer(function(request, response) {  
@@ -39,8 +37,8 @@ http.createServer(function(request, response) {
             }  
   
             var extension = path.extname(filename).substr(1);
-            var mimeType = mimeTypes[extension] || 'application/octet-stream';
-            response.writeHead(200, {'Content-Type': mimeType});
+            var mimeType = mimeTypes[extension] || "application/octet-stream";
+            response.writeHead(200, {"Content-Type": mimeType});
               
             response.write(file, "binary");
             response.end();  
@@ -54,10 +52,10 @@ console.log("Server running at http://" + ipServidorChatNodeJs + ":" + portServi
  * Messages server
  */
 
-var io = require('socket.io').listen(portServidorChatNodeJs);
+var io = require("socket.io").listen(portServidorChatNodeJs);
 
-io.sockets.on('connection', function (socket) {
-    socket.on('nuevomsj', function (data) {
-        io.sockets.emit('news', data);
+io.sockets.on("connection", function (socket) {
+    socket.on("nuevomsj", function (data) {
+        io.sockets.emit("news", data);
     });
 });        

@@ -8,23 +8,30 @@
         <link rel="stylesheet" type="text/css" href="estilo.css">
     </head>
     <body>
+        
+        <!--Login form-->
         <div id="login">
-            <label>Ingresa tu nombre: </label>
-            <input type="text" id="nuevonombre" size="33" maxlength="33" >
+            <div data-role="header">
+                <h1>Ingresa tu nombre</h1>
+            </div>
+            <input type="text" id="nuevonombre" size="33" maxlength="33" placeholder="Ingresa tu nombre">
             <div>
-                <a data-role="button" id="login_button" >Aceptar</a>
+                <a data-role="button" id="login_button" data-icon="arrow-r" data-iconpos="right">Aceptar</a>
             </div>
         </div>
 
+        <!--Conversations form-->
         <div id="container" style="display:none" >
+            <div data-role="header">
+                <h1>
+                    <span id="nombre" ></span>
+                </h1>
+            </div>
+                    
             <form>
+                <div id="mensajes" ></div> 
                 <div>
-                    <label>Tu nombre: </label>
-                    <input type="text" id="nombre" size="33" readonly >
-                </div>
-                <div id="mensajes" >Bienvenido...</div> 
-                <div>
-                    <input type="text" id="mimensaje" size="45" maxlength="45" placeholder="Ingresa un mensaje">
+                    <input type="text" id="mimensaje" size="45" maxlength="45" placeholder="Envía un mensaje">
                 </div>
                 <div>
                     <a data-role="button" id="chat_button" >Enviar</a>
@@ -37,20 +44,16 @@
         <script src="config.js"></script>
         <script src="client.js"></script>
         <script>            
-            
-            (
-                function(d){
-                    var myscript = d.createElement('script');
-                    myscript.src = 'http://' + ipServidorChatNodeJs + ':' + portServidorWebNodeJs + '/node_modules/socket.io-client/dist/socket.io.js';
-                    myscript.type = 'text/javascript';
-                    d.getElementsByTagName('head')[0].appendChild(myscript);
-                }
-            )(document);
+            (function(d){
+                var myscript = d.createElement('script');
+                myscript.src = 'http://' + ipServidorChatNodeJs + ':' + portServidorWebNodeJs + '/node_modules/socket.io-client/dist/socket.io.js';
+                myscript.type = 'text/javascript';
+                d.getElementsByTagName('head')[0].appendChild(myscript);
+            })(document);
 
             $(document).ready(function(){
                 chat.init();
-            })
-        
+            });
         </script>            
     </body>
 </html>

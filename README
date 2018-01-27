@@ -1,5 +1,5 @@
 Chat with Node.js and jQuery is a web application developed entirely with node.js that allow users to chat in a web interface. 
-No need to apache or databases.
+No need of apache or databases.
 
 Requirements:
 - Nodejs
