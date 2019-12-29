@@ -46,7 +46,10 @@
         <script>            
             (function(d){
                 var myscript = d.createElement('script');
-                myscript.src = 'http://' + ipServidorChatNodeJs + ':' + portServidorWebNodeJs + '/node_modules/socket.io-client/dist/socket.io.js';
+                //myscript.src = 'http://' + ipServidorChatNodeJs + ':' + portServidorWebNodeJs + '/node_modules/socket.io-client/dist/socket.io.js';
+                //Ahora extraemos ip y puerto de location para obtener los datos reales despues de dockerizar la app
+                myscript.src = 'http://' + location.hostname + ':' + location.port + '/node_modules/socket.io-client/dist/socket.io.js';
+                
                 myscript.type = 'text/javascript';
                 d.getElementsByTagName('head')[0].appendChild(myscript);
             })(document);

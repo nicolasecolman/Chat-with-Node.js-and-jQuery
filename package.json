@@ -1,0 +1,14 @@
+{
+    "name": "Chat-with-Node.js-and-jQuery",
+    "version": "1.0.0",
+    "description": "Node.js on Docker",
+    "author": "Nicolas Colman <nicolasecolman@gmail.com>",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "socket.io": "*",
+      "socket.io-client": "*"
+    }
+  }

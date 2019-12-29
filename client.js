@@ -24,8 +24,9 @@ var chat = (function () {
         $("#container").show(700);
         $("#mimensaje").focus();
         $("#mensajes").html("<p>Bienvenido " + $("#nombre").text() + "!</p>");
-
-        socket = io.connect("http://" + ipServidorChatNodeJs + ":" + portServidorChatNodeJs);
+        //socket = io.connect("http://" + ipServidorChatNodeJs + ":" + portServidorChatNodeJs);
+        //Hardcodeamos puerto momentaneamente y obtenemos ip de location para obtener los datos reales despues de dockerizar la app
+        socket = io.connect("http://" + location.hostname + ":" + "49161");
 
         socket.emit("nuevomsj", "- " + $("#nombre").text() + " ha ingresado a la conversación.");
 

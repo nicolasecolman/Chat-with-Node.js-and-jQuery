@@ -3,6 +3,6 @@
  */
 (function(){
     ipServidorChatNodeJs   = 'localhost';
-    portServidorChatNodeJs = '8889';
-    portServidorWebNodeJs  = '8888';
+    portServidorChatNodeJs = '8081';
+    portServidorWebNodeJs  = '8080';
 })();

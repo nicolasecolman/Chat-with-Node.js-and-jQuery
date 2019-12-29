@@ -7,6 +7,8 @@ Requirements:
 - Socket IO client (npm install socket.io-client)
 
 How to install:
+
+Without docker:
 1. Clone the repo in any location.
 2. Open config.js and edit the lines with the desired values:
       ipServidorChatNodeJs = '192.168.1.4'; //Ip address for the created web server (localhost for local usage)
@@ -16,3 +18,7 @@ How to install:
 	$ node server.js
 4. Open a browser and type the location of your app (e.g. http://localhost:8888/index.html).
 5. Enjoy!
+
+With docker (TODO: write steps):
+$ docker build -t nicolasecolman/node-web-app .
+$ docker run -p 49160:8080 -p 49161:8081 -d nicolasecolman/node-web-app
